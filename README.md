@@ -55,7 +55,7 @@ The data exchanged at this endpoint must conform to the model defined in NavSale
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/dock2dock/docker
 cd <your-repo-directory>
 ```
 
