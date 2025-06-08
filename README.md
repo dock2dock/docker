@@ -33,7 +33,7 @@ The API must expose an endpoint ending with `/dock2dockSalesOrders`. This endpoi
 
 #### Model Schema:
 
-The data exchanged at this endpoint must conform to the model defined in NavSalesOrder.cs within the Nav.Api.Client.Models namespace. Ensure your API implements this schema for compatibility with the integration.
+The data exchanged at this endpoint must conform to schema defined. Ensure your API implements this schema for compatibility with the integration.
 
 | Field Name        | Type            | Max Length | Description | 
 |-------------------|-----------------|-|------------|
