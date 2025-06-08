@@ -1,0 +1,34 @@
+﻿services:
+  dock2dockapi:
+    depends_on:
+      - rabbitmq
+    image: dock2dockio/api
+    environment:
+      Dock2Dock__ApiKey: ${DOCK2DOCK_APIKEY}
+      Dock2Dock__BaseUrl: ${DOCK2DOCK_BASEURL}
+      
+  navbackgroundtasks:
+    depends_on:
+      - rabbitmq
+    image: dock2dockio/nav-tasks
+    environment:
+      NavApi__Url: ${NAVAPI_URL}
+      NavApi__Username: ${NAVAPI_USERNAME}
+      NavApi__Password: ${NAVAPI_PASSWORD}
+      NavApi__GetSalesOrdersFilter: ${NAVAPI_GET_SALES_ORDERS_FILTER}
+      NavApi__SyncSalesOrdersEnabled: ${NAVAPI_SYNC_SALES_ORDERS_ENABLED}
+    volumes:
+      - navbackgroundtasks-config:/app/config
+      
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: 'dock2dock-rabbitmq'
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_VHOST: Prod
+
+volumes:
+  navbackgroundtasks-config:
