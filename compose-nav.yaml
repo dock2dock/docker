@@ -3,22 +3,28 @@
     depends_on:
       - rabbitmq
     image: dock2dockio/api
+    container_name: 'api'
+    restart: always
     environment:
-      Dock2Dock__ApiKey: ${DOCK2DOCK_APIKEY}
+      Dock2Dock__ApiKey_FILE: /run/secrets/dock2dock_apikey
       Dock2Dock__BaseUrl: ${DOCK2DOCK_BASEURL}
       
   navbackgroundtasks:
     depends_on:
       - rabbitmq
     image: dock2dockio/nav-tasks
+    container_name: 'nav-tasks'
+    restart: always
     environment:
       NavApi__Url: ${NAVAPI_URL}
       NavApi__Username: ${NAVAPI_USERNAME}
-      NavApi__Password: ${NAVAPI_PASSWORD}
+      NavApi__Password_FILE: /run/secrets/navapi_password
       NavApi__GetSalesOrdersFilter: ${NAVAPI_GET_SALES_ORDERS_FILTER}
       NavApi__SyncSalesOrdersEnabled: ${NAVAPI_SYNC_SALES_ORDERS_ENABLED}
     volumes:
       - navbackgroundtasks-config:/app/config
+    secrets:
+      - navapi_password
       
   rabbitmq:
     image: rabbitmq:3-management
@@ -32,3 +38,9 @@
 
 volumes:
   navbackgroundtasks-config:
+
+secrets:
+  navapi_password:
+    file: ./secrets/navapi_password.txt
+  dock2dock_apikey:
+    file: ./secrets/dock2dock_apikey.txt

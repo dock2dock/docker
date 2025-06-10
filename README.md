@@ -11,6 +11,12 @@ This guide will help you install and run our Docker images using Docker Compose 
 ## Prerequisites
 
 - Docker Desktop installed (Windows, Mac, or Linux)
+
+> ⚠️ To ensure Docker Desktop restarts after a rebook
+> - Open `Docker Desktop`.
+> - Go to Settings > General.
+> - Enable `Start Docker Desktop when you log in`.
+
 - Docker Compose (included with Docker Desktop)
 
 ## Docker images
@@ -55,7 +61,7 @@ The data exchanged at this endpoint must conform to schema defined. Ensure your 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/dock2dock/docker
+git clone https://github.com/dock2dock/docker Dock2dock-docker
 cd <your-repo-directory>
 ```
 
@@ -65,18 +71,39 @@ We provide a sample `.env` file containing all the environment variables you can
 
 - For local development:
 
-    Copy `.env` to `.env.local` and edit as needed.
+    Copy `.env` to `.env-local` and edit as needed.
 
 - For QA or Production:
 
-    Duplicate the `.env` file and name it accordingly (e.g., `.env.qa`, `.env.prod`).
+    Duplicate the `.env` file and name it accordingly (e.g., `.env-qa`, `.env-prod`).
     Edit the values for each environment.
 
-### 3. Docker Compose File
+### 3. Secrets
+
+For improved security, Dock2Dock uses a `secrets` folder to store sensitive values such as API keys and passwords. This folder should already exist in your project.
+
+#### **Populate your secrets:**
+
+- For the Dock2Dock API key, add your key to `secrets/dock2dock_apikey.txt`:
+
+```sh
+echo "your-dock2dock-apikey" > secrets/dock2dock_apikey.txt
+```
+
+- For the NAV API password, add your password to `secrets/navapi_password.txt`:
+
+```sh
+echo "your-navapi-password" > secrets/navapi_password.txt
+```
+
+> **Important:**  
+After deploying your services, we recommend deleting the API key and password from your `secrets` folder to minimise the risk of leaking sensitive information.
+
+### 4. Docker Compose File
 
 The cloned repository includes the docker compose file `compose-nav.yaml`
 
-### 4. Build and Run
+### 5. Build and Run
 
 To start the services with the default `.env` file:
 
@@ -87,27 +114,25 @@ docker compose -f compose-nav.yaml up -d
 To use a specific environment file (e.g., for QA or Production):
 
 ```bash
-docker compose -f compose-nav.yaml --env-file .env.qa up -d
+docker compose -f compose-nav.yaml -p dock2dock --env-file .env-qa up -d 
 # or
-docker compose -f compose-nav.yaml --env-file .env.prod up -d
+docker compose -f compose-nav.yaml -p dock2dock --env-file .env-prod up -d
 ```
 
 ### 5. Stopping the Services
 
 ```bash
-docker compose down
+docker compose -f compose-nav.yaml down
 ```
 
 ### 6. Environment Variables Reference
 
 | Variable Name     | Description                              |
 |-------------------|------------------------------------------|
-| DOCK2DOCK_APIKEY | ApiKey to access the Dock2Dock API       |
 | DOCK2DOCK_BASEURL | Base API URL for Dock2Dock |
 | NAVAPI_URL | The URL of the NAV API. If you are using `localhost` in the URL, replace it with `host.docker.internal`    |
 | NAVAPI_USERNAME | The username to connect to the NAV API   | 
-| NAVAPI_PASSWORD | The password to connect to the NAV API   | 
-| NAVAPI_GET_SALES_ORDERS_FILTER | The GET sales order query filter         |
+| NAVAPI_GET_SALES_ORDERS_FILTER | The GET sales order query filter. Please ensure your environment variable includes `lastModifiedDateTime ge {{LastSalesOrderSyncDate}}`. For example: `lastModifiedDateTime ge {{LastSalesOrderSyncDate}} and stage eq 'CONFIRM'`.       |
 | NAVAPI_SYNC_SALES_ORDERS_ENABLED | Sync Sales Orders with Dock2Dock enabled |
 
 #### Notes:
