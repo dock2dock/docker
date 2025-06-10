@@ -27,7 +27,7 @@ This guide will help you install and run our Docker images using Docker Compose 
 
 - nav-tasks
 
-  The `nav-tasks` image is periodically polls the NAV API to retrieve newly modified sales orders. It runs on a scheduled cron job (0 0/2 5-18 ? * MON,TUE,WED,THU,FRI,SAT,SUN *). 
+  The `nav-tasks` image is periodically polls the NAV API to retrieve newly modified sales orders. It runs on a scheduled cron job.
 
 ## NAV Integration
 
@@ -134,6 +134,8 @@ docker compose -f compose-nav.yaml down
 | NAVAPI_USERNAME | The username to connect to the NAV API   | 
 | NAVAPI_GET_SALES_ORDERS_FILTER | The GET sales order query filter. Please ensure your environment variable includes `lastModifiedDateTime ge {{LastSalesOrderSyncDate}}`. For example: `lastModifiedDateTime ge {{LastSalesOrderSyncDate}} and stage eq 'CONFIRM'`.       |
 | NAVAPI_SYNC_SALES_ORDERS_ENABLED | Sync Sales Orders with Dock2Dock enabled |
+| NAVAPI_SYNC_SALES_ORDERS_SCHEDULE | Scheduled cron schedule to fetch newly updated sales orders |
+| CRON_TZ | Timezone for cron job. Default: New Zealand Standard Time |
 
 #### Notes:
 

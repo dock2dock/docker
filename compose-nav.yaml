@@ -21,6 +21,8 @@
       NavApi__Password_FILE: /run/secrets/navapi_password
       NavApi__GetSalesOrdersFilter: ${NAVAPI_GET_SALES_ORDERS_FILTER}
       NavApi__SyncSalesOrdersEnabled: ${NAVAPI_SYNC_SALES_ORDERS_ENABLED}
+      Jobs__CheckLatestNavSalesOrders__CronExpression: ${NAVAPI_SYNC_SALES_ORDERS_SCHEDULE}
+      CronTz: ${CRON_TZ}
     volumes:
       - navbackgroundtasks-config:/app/config
     secrets:
