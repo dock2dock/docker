@@ -119,13 +119,13 @@ docker compose -f compose-nav.yaml -p dock2dock --env-file .env-qa up -d
 docker compose -f compose-nav.yaml -p dock2dock --env-file .env-prod up -d
 ```
 
-### 5. Stopping the Services
+### 6. Stopping the Services
 
 ```bash
 docker compose -f compose-nav.yaml down
 ```
 
-### 6. Environment Variables Reference
+### 7. Environment Variables Reference
 
 | Variable Name     | Description                              |
 |-------------------|------------------------------------------|
