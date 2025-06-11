@@ -104,7 +104,6 @@ The NAV API endpoint should return a JSON response in the following format, whic
         {
             "@odata.etag": "W/\"JzQ0Ozl5aHRsbjZvNGhvYjFPR3p6clBmTUlZVDJWc3hGMzlKUEJuczh3bXEwVG89MTswMDsn\"",
             "id": "f96e63b4-b7fb-4cc5-9618-007db6a46aa2",
-            "documentType": "Order",
             "sellToCustomerNo": "C1135",
             "no": "42385",
             "yourReference": "",
