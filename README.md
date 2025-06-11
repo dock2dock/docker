@@ -126,8 +126,9 @@ The NAV API endpoint should return a JSON response in the following format, whic
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/dock2dock/docker Dock2dock-docker
 cd <your-repo-directory>
+git clone https://github.com/dock2dock/docker Dock2dock-docker
+cd Dock2dock-docker
 ```
 
 ### 2. Environment Variables
@@ -182,6 +183,12 @@ To use a specific environment file (e.g., for QA or Production):
 docker compose -f compose-nav.yaml -p dock2dock --env-file .env-qa up -d 
 # or
 docker compose -f compose-nav.yaml -p dock2dock --env-file .env-prod up -d
+```
+
+To update Dock2Dock docker images:
+
+```bash
+ docker-compose -f compose-nav.yaml pull
 ```
 
 ### 6. Stopping the Services

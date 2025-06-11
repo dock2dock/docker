@@ -8,6 +8,8 @@
     environment:
       Dock2Dock__ApiKey_FILE: /run/secrets/dock2dock_apikey
       Dock2Dock__BaseUrl: ${DOCK2DOCK_BASEURL}
+    secrets:
+      - dock2dock_apikey
       
   navbackgroundtasks:
     depends_on:
