@@ -37,6 +37,10 @@ To enable integration with NAV, your API service must meet the following require
 
 The API must expose an endpoint ending with `/dock2dockSalesOrders`. This endpoint will be used by the `nav-tasks` service to receive sales order data.
 
+#### Authentication
+
+The NAV API endpoint must support HTTP Basic Authentication, which is the standard authentication method for on-premise NAV implementations. The `nav-tasks` service will connect to your NAV API using a username and password, which should be provided via environment variables (`NAVAPI_USERNAME` and the password stored in `secrets/navapi_password.txt`). Ensure your API is configured to accept and validate Basic Authentication credentials for all requests to the `/dock2dockSalesOrders` endpoint.
+
 #### Model Schema:
 
 The data exchanged at this endpoint must conform to schema defined. Ensure your API implements this schema for compatibility with the integration.
@@ -55,6 +59,68 @@ The data exchanged at this endpoint must conform to schema defined. Ensure your 
 | IsCrossdock           |	bool	|  | Indicates if the order is crossdock. Default: false |
 | LastModifiedDateTime  |DateTime	|  |Last modified date and time |
 | ShippingAgentCode	    | string?	| 50 |Shipping agent code (optional) |
+
+#### Expected JSON Response
+
+The NAV API endpoint should return a JSON response in the following format, which is standard for on-premise NAV implementations:
+
+```json
+{
+    "@odata.context": "string",
+    "@odata.count": number,
+    "value": [
+        {
+            "@odata.etag": "string",
+            "id": "string",
+            "sellToCustomerNo": "string",
+            "no": "string",
+            "yourReference": "string",
+            "shipmentDate": "YYYY-MM-DD",
+            "requestedDeliveryDate": "YYYY-MM-DD",
+            "externalDocumentNo": "string",
+            "ourAccountNo": "string",
+            "sellToCustomerName": "string",
+            "isCrossdock": boolean,
+            "shippingAgentCode": "string",
+            "lastModifiedDateTime": "YYYY-MM-DDTHH:MM:SSZ",
+        }
+        // ... more sales orders
+    ]
+}
+```
+
+- The root object contains OData metadata fields (`@odata.context`, `@odata.count`) and a `value` array of sales order objects.
+- Each sales order object must include all required fields as described in the schema above.
+- Dates should be in ISO 8601 format (e.g., `2024-09-05` for dates, `2024-09-08T23:20:04.187Z` for date-times).
+- Optional fields may be empty strings or omitted if not applicable.
+
+**Example:**
+
+```json
+{
+    "@odata.context": "http://navURL/$metadata#companies(companyID)/dock2dockSalesOrders",
+    "@odata.count": 1,
+    "value": [
+        {
+            "@odata.etag": "W/\"JzQ0Ozl5aHRsbjZvNGhvYjFPR3p6clBmTUlZVDJWc3hGMzlKUEJuczh3bXEwVG89MTswMDsn\"",
+            "id": "f96e63b4-b7fb-4cc5-9618-007db6a46aa2",
+            "documentType": "Order",
+            "sellToCustomerNo": "C1135",
+            "no": "42385",
+            "yourReference": "",
+            "shipmentDate": "2024-09-05",
+            "requestedDeliveryDate": "0001-01-01",
+            "externalDocumentNo": "",
+            "ourAccountNo": "8097",
+            "sellToCustomerName": "New World Blenheim",
+            "isCrossdock": false,
+            "shippingAgentCode": "",
+            "lastModifiedDateTime": "2024-09-08T23:20:04.187Z",
+        }
+    ]
+}
+```
+
 
 ## Instructions
 
