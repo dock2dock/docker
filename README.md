@@ -10,14 +10,14 @@ This guide will help you install and run our Docker images using Docker Compose 
 
 ## Prerequisites
 
-- Docker Desktop installed (Windows, Mac, or Linux)
+- [Docker](https://docs.docker.com) installed (Windows, Mac, or Linux) 
 
-> ⚠️ To ensure Docker Desktop restarts after a rebook
+> ⚠️ If you're using Docker Desktop. To ensure Docker Desktop restarts after a reboot
 > - Open `Docker Desktop`.
 > - Go to Settings > General.
 > - Enable `Start Docker Desktop when you log in`.
 
-- Docker Compose (included with Docker Desktop)
+- Docker Compose (included with Docker)
 
 ## Docker images
 
@@ -28,6 +28,11 @@ This guide will help you install and run our Docker images using Docker Compose 
 - nav-tasks
 
   The `nav-tasks` image is periodically polls the NAV API to retrieve newly modified sales orders. It runs on a scheduled cron job.
+
+### Linux Container Support
+
+> **Note:** Dock2Dock only supports running in Linux containers.  
+> Windows containers are not supported. Please ensure your Docker environment is configured to use Linux containers before deploying Dock2Dock.
 
 ## NAV Integration
 
